@@ -12,7 +12,7 @@ addEventListener("load", () =>
     context.fillStyle = "#ffffff";
     context.strokeStyle = "#ffffff";
     context.lineWidth = 2;
-    context.font = "25px space shards";
+    context.font = "25px comic sans ms";
 
     const game = new Game(screen);
     

@@ -1,18 +1,31 @@
-import Alien from "./alien.js";
+import { Idle, Charge, Swarm, STATES } from "./state.js";
 
 export default class Game
 {
     constructor(screen)
     {
-        console.log(`Game .ctor @ ${new Date().toLocaleString()}`);
+        console.log(`${this.constructor.name} .ctor @ ${new Date().toLocaleString()}`);
 
         this.screen = screen;
         this.width = this.screen.width;
         this.height = this.screen.height;
         this.game_over = false;
         this.debug = false;
+        this.states = [new Idle(this), new Charge(this), new Swarm(this)];
+        this.keys = new Set();
 
-        this.alien = new Alien(this);
+        this.alien;
+        this.setState(STATES.Idle);
+
+        addEventListener("keydown", (event) =>
+        {
+            this.keys.add(event.key);
+        });
+
+        addEventListener("keyup", (event) =>
+        {
+            this.keys.clear();
+        });
     }
 
     draw(context)
@@ -23,6 +36,12 @@ export default class Game
     update(delta_time)
     {
         this.alien.update(delta_time);
+    }
+
+    setState(state)
+    {
+        this.alien = this.states[state];
+        this.alien.setState();
     }
 
     /*setGameText(context)
